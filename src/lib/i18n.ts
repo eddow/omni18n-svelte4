@@ -7,15 +7,18 @@ import {
 } from 'omni18n/src/client'
 import { writable } from 'svelte/store'
 
+// PoI: Manage your locales here
+export const locales = ['fr', 'en'] as const
+export type MLocale = (typeof locales)[number] & Locale
+
+export interface TextInfos {}
+export interface KeyInfos {}
+
 // Remove duplicates while keeping the order
 export function removeDuplicates(arr: MLocale[]) {
 	const done = new Set<MLocale>()
 	return arr.filter((k) => !done.has(k) && done.add(k))
 }
-
-// PoI: Manage your locales here
-export const locales = ['fr', 'en'] as const
-export type MLocale = (typeof locales)[number] & Locale
 
 let rq = fetch
 // Used server-side as `fetch` is onto our app, it comes from RequestEvent.fetch
@@ -31,14 +34,14 @@ locale.subscribe(async (locale) => {
 	if (!locale) return
 	queryLocale = locale
 	await i18nClient.setLocales([locale, ...(<MLocale[]>i18nClient.locales)])
-	initTranslator()
+	await initTranslator()
 })
 Object.assign(reports, {
 	error({ key }: TContext, error: string, spec: object) {
 		rq(`/i18n?error`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ locale: queryLocale, key, error, spec })
+			body: JSON.stringify({ key, error, spec })
 		})
 		return '[*error*]'
 	},
@@ -46,7 +49,7 @@ Object.assign(reports, {
 		rq(`/i18n?missing`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ locale: queryLocale, key })
+			body: JSON.stringify({ key })
 		})
 		return fallback || `[${key}]`
 	}
@@ -63,6 +66,3 @@ export async function condense() {
 export async function initTranslator() {
 	T.set(await i18nClient.enter())
 }
-
-export interface TextInfos {}
-export interface KeyInfos {}
