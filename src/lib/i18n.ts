@@ -1,10 +1,4 @@
-import {
-	reports,
-	type TContext,
-	I18nClient,
-	type Locale,
-	type Translator
-} from 'omni18n/src/client'
+import { reports, type TContext, I18nClient, type Locale, type Translator } from 'omni18n'
 import { writable } from 'svelte/store'
 
 // PoI: Manage your locales here

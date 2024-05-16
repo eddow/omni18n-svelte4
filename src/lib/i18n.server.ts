@@ -1,4 +1,4 @@
-import { FileDB, I18nClient, I18nServer } from 'omni18n/src'
+import { FileDB, I18nClient, I18nServer } from 'omni18n'
 import { type KeyInfos, type MLocale, type TextInfos } from './i18n'
 export { removeDuplicates } from './i18n'
 

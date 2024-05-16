@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { locale, locales, type MLocale } from '$lib/i18n'
-	import { localeFlags } from 'omni18n/src/client'
+	import { localeFlags } from 'omni18n'
 
 	function selfLocale(locale: string) {
 		return new Intl.DisplayNames(locale, { type: 'language' }).of(locale) || '???'
