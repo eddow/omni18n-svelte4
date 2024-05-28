@@ -2,9 +2,10 @@ import { FileDB, I18nClient, I18nServer } from 'omni18n'
 import { type KeyInfos, type MLocale, type TextInfos } from './i18n'
 export { removeDuplicates } from './i18n'
 
-// PoI: Manage your locales here
+// PoI: Manage your database here
 // Note: Dictionary data is "downloaded" at *each* request involving text, we might consider caching
 export const i18nSource = new FileDB('dictionary.i18n')
+
 export const i18nServer = new I18nServer<KeyInfos, TextInfos>(i18nSource)
 
 export type ClientSideError = object & { clientSide?: true }

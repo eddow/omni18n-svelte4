@@ -27,7 +27,7 @@ let queryLocale: string
 locale.subscribe(async (locale) => {
 	if (!locale) return
 	queryLocale = locale
-	await i18nClient.setLocales([locale, ...(<MLocale[]>i18nClient.locales)])
+	await i18nClient.setLocales(removeDuplicates([locale, ...(<MLocale[]>i18nClient.locales)]))
 	await initTranslator()
 })
 Object.assign(reports, {
@@ -37,7 +37,7 @@ Object.assign(reports, {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ key, error, spec })
 		})
-		return '[*error*]'
+		return '[*translation error*]'
 	},
 	missing({ key }: TContext, fallback: string) {
 		rq(`/i18n?missing`, {
@@ -49,7 +49,7 @@ Object.assign(reports, {
 	}
 })
 
-export async function condense() {
+async function condense() {
 	const response = await rq(`/i18n`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
