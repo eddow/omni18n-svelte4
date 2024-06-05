@@ -1,5 +1,5 @@
 import type { KeyInfos, MLocale, TextInfos } from '$lib/i18n'
-import { i18nServer, i18nSource, removeDuplicates } from '$lib/i18n.server'
+import { i18nServer, i18nSource } from '$lib/i18n.server'
 import { error, type RequestHandler } from '@sveltejs/kit'
 
 function ok() {
@@ -25,7 +25,7 @@ export const POST: RequestHandler = async ({ locals: { i18nClient }, cookies, re
 	// Actual `condense` query, occurs on user's language change
 	const { locale } = body
 	if (locale && locale !== i18nClient.locales[0]) {
-		i18nClient.setLocales(removeDuplicates([locale, ...i18nClient.locales]))
+		i18nClient.setLocales([locale, ...i18nClient.locales])
 		cookies.set('language', locale, { path: '/' })
 	}
 	return Response.json(await i18nServer.condense(i18nClient.locales))

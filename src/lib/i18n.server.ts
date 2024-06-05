@@ -1,6 +1,5 @@
 import { FileDB, I18nClient, I18nServer } from 'omni18n'
 import { type KeyInfos, type MLocale, type TextInfos } from './i18n'
-export { removeDuplicates } from './i18n'
 
 // PoI: Manage your database here
 // Note: Dictionary data is "downloaded" at *each* request involving text, we might consider caching
