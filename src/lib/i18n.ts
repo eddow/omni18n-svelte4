@@ -8,12 +8,6 @@ export type MLocale = (typeof locales)[number] & Locale
 export interface TextInfos {}
 export interface KeyInfos {}
 
-// Remove duplicates while keeping the order
-export function removeDuplicates(arr: MLocale[]) {
-	const done = new Set<MLocale>()
-	return arr.filter((k) => !done.has(k) && done.add(k))
-}
-
 let rq = fetch
 // Used server-side as `fetch` is onto our app, it comes from RequestEvent.fetch
 export function setFetch(fn: typeof fetch) {
@@ -27,7 +21,7 @@ let queryLocale: string
 locale.subscribe(async (locale) => {
 	if (!locale) return
 	queryLocale = locale
-	await i18nClient.setLocales(removeDuplicates([locale, ...(<MLocale[]>i18nClient.locales)]))
+	await i18nClient.setLocales([locale, ...(<MLocale[]>i18nClient.locales)])
 	await initTranslator()
 })
 Object.assign(reports, {

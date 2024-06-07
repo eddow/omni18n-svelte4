@@ -1,5 +1,5 @@
 import { locales, setFetch, type MLocale } from '$lib/i18n'
-import { createClient, removeDuplicates } from '$lib/i18n.server'
+import { createClient } from '$lib/i18n.server'
 import type { Handle } from '@sveltejs/kit'
 
 export const handle: Handle = ({ event, resolve }) => {
@@ -16,7 +16,7 @@ export const handle: Handle = ({ event, resolve }) => {
 	usedLocales.push('en')
 	setFetch(event.fetch)
 	// Does not actually download anything, just centralizes so that if something is downloaded, it is done once
-	event.locals.i18nClient = createClient(removeDuplicates(usedLocales))
+	event.locals.i18nClient = createClient(usedLocales)
 	//#endregion
 	return resolve(event, {
 		transformPageChunk(opts: { html: string; done: boolean }) {

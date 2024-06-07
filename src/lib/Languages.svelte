@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { locale, locales, type MLocale } from '$lib/i18n'
+	import { locale, locales } from '$lib/i18n'
 	import { localeFlags } from 'omni18n'
 
 	function selfLocale(locale: string) {
