@@ -15,7 +15,7 @@
 <div>
 	{#each localeDescriptions as desc}
 		<button on:click={() => locale.set(desc.locale)} class:selected={$locale === desc.locale}>
-			{desc.flag}
+			{@html desc.flag}
 			{desc.text}
 		</button>
 	{/each}
