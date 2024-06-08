@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Languages from '$lib/Languages.svelte'
+	import Languages from '$lib/languages.svelte'
 	import { T } from '$lib/i18n'
 	import CoolStuff from '$lib/coolStuff.svelte'
 </script>
