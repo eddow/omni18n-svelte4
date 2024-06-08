@@ -32,6 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"omni18n": "^1.1.12"
+		"omni18n": "file:../omni18n"
 	}
 }

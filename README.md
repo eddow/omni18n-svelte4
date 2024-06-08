@@ -84,3 +84,7 @@ These 2 files will make sure the whole dictionary is passed through `PageData` a
 ### hooks.server.ts
 
 Creates the one server-side-client, manage the fallback locales as well as the `<html lang="%language%">` part of `app.html`
+
+## The inexistent message...
+
+...Is about the fact it's logged server-side

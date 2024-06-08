@@ -1,4 +1,11 @@
-import { reports, type TContext, I18nClient, type Locale, type Translator } from 'omni18n/ts'
+import {
+	reports,
+	type TContext,
+	I18nClient,
+	type Locale,
+	type Translator,
+	type LocaleFlagsEngine
+} from 'omni18n/ts'
 import { writable } from 'svelte/store'
 
 // PoI: Manage your locales here
@@ -53,3 +60,5 @@ async function condense() {
 export async function initTranslator() {
 	T.set(await i18nClient.enter())
 }
+
+export let localeFlags = writable<LocaleFlagsEngine>()
