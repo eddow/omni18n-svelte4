@@ -1,6 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 
-import type { I18nClient } from 'omni18n'
+import type { I18nClient } from 'omni18n/ts'
 
 // for information about these interfaces
 declare global {

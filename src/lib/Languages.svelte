@@ -1,15 +1,27 @@
 <script lang="ts">
 	import { locale, locales } from '$lib/i18n'
-	import { localeFlags } from 'omni18n'
+	import { gotUserAgent, localeFlags, type Locale } from 'omni18n/ts'
+	import { onMount } from 'svelte'
 
 	function selfLocale(locale: string) {
 		return new Intl.DisplayNames(locale, { type: 'language' }).of(locale) || '???'
 	}
-	const localeDescriptions = locales.map((locale) => ({
+
+	gotUserAgent()
+	let localeDescriptions = locales.map((locale) => ({
 		locale,
 		flag: localeFlags(locale)[0],
 		text: selfLocale(locale)
-	}))
+	})) /*
+	onMount(() => {
+		// If the client is on windows, the flags have to be treated differently...
+		gotUserAgent()
+		localeDescriptions = locales.map((locale) => ({
+			locale,
+			flag: localeFlags(locale)[0],
+			text: selfLocale(locale)
+		}))
+	})*/
 </script>
 
 <div>

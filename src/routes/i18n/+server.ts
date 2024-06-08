@@ -1,6 +1,7 @@
-import type { KeyInfos, MLocale, TextInfos } from '$lib/i18n'
+import type { KeyInfos, TextInfos } from '$lib/i18n'
 import { i18nServer, i18nSource } from '$lib/i18n.server'
 import { error, type RequestHandler } from '@sveltejs/kit'
+import type { Locale } from 'omni18n/ts'
 
 function ok() {
 	return new Response(null, { status: 204 })
@@ -46,7 +47,7 @@ export const PUT: RequestHandler = async ({ request }) => {
 		locale,
 		text,
 		infos
-	}: { key: string; locale: MLocale; text: string; infos?: Partial<TextInfos> } =
+	}: { key: string; locale: Locale; text: string; infos?: Partial<TextInfos> } =
 		await request.json()
 	if (!key || !locale) throw error(400, 'Missing key or locale')
 	await i18nSource.modify(key, locale, text, infos)

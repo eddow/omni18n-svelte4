@@ -1,9 +1,8 @@
-import { reports, type TContext, I18nClient, type Locale, type Translator } from 'omni18n'
+import { reports, type TContext, I18nClient, type Locale, type Translator } from 'omni18n/ts'
 import { writable } from 'svelte/store'
 
 // PoI: Manage your locales here
 export const locales = ['fr', 'en'] as const
-export type MLocale = (typeof locales)[number] & Locale
 
 export interface TextInfos {}
 export interface KeyInfos {}
@@ -16,12 +15,12 @@ export function setFetch(fn: typeof fetch) {
 
 export const i18nClient = new I18nClient([], condense)
 export const T = writable<Translator>()
-export const locale = writable<MLocale>()
+export const locale = writable<Locale>()
 let queryLocale: string
 locale.subscribe(async (locale) => {
 	if (!locale) return
 	queryLocale = locale
-	await i18nClient.setLocales([locale, ...(<MLocale[]>i18nClient.locales)])
+	await i18nClient.setLocales([locale])
 	await initTranslator()
 })
 Object.assign(reports, {

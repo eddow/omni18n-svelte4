@@ -1,5 +1,5 @@
-import { FileDB, I18nClient, I18nServer } from 'omni18n'
-import { type KeyInfos, type MLocale, type TextInfos } from './i18n'
+import { FileDB, I18nClient, I18nServer, type Locale } from 'omni18n/ts'
+import { type KeyInfos, type TextInfos } from './i18n'
 
 // PoI: Manage your database here
 // Note: Dictionary data is "downloaded" at *each* request involving text, we might consider caching
@@ -29,6 +29,6 @@ class ReportingI18nClient extends I18nClient {
 		return fallback || `[${key}]`
 	}
 }
-export function createClient(locales: MLocale[]) {
+export function createClient(locales: Locale[]) {
 	return new ReportingI18nClient(locales, i18nServer.condense)
 }
