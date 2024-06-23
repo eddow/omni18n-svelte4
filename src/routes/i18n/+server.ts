@@ -11,16 +11,10 @@ function ok() {
 
 export const POST: RequestHandler = async ({ locals: { i18nClient }, cookies, request, url }) => {
 	const body = await request.json()
-	// All the reports are managed on the server' I18nClient
-	if (url.searchParams.get('missing') !== null) {
-		const { key } = body
-		// Fake fallback, we don't care about the return value but without it, the function throws
-		i18nClient.missing(key, 'client-side')
-		return ok()
-	}
 	if (url.searchParams.get('report') !== null) {
 		const { key, error, spec } = body
 		i18nClient.report(key, error, spec)
+		return ok()
 	}
 	// Actual `condense` query, occurs on user's language change
 	const { locale } = body

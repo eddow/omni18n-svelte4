@@ -1,5 +1,4 @@
 import {
-	type TContext,
 	I18nClient,
 	type Locale,
 	type Translator,
@@ -53,4 +52,4 @@ export async function initTranslator() {
 	T.set(await i18nClient.enter())
 }
 
-export let localeFlags = writable<LocaleFlagsEngine>()
+export const localeFlags = writable<LocaleFlagsEngine>()

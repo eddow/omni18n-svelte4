@@ -18,7 +18,7 @@ class ReportingI18nClient extends I18nClient {
 	error(key: string, error: string, spec?: object): string {
 		// PoI: actually report
 		console.error(
-			`Error ${error} for ${key} in ${this.locales[0]}:\n`,
+			`Server-side ${error} for ${key} in ${this.locales[0]}:\n`,
 			JSON.stringify(spec, null, 2)
 		)
 		// If error on server-side, avoid at all costs sending an email with no text
@@ -27,7 +27,7 @@ class ReportingI18nClient extends I18nClient {
 
 	missing(key: string, fallback: string) {
 		// PoI: actually report
-		console.error(`Missing ${key} in ${this.locales[0]}`)
+		console.error(`Server-side missing ${key} in ${this.locales[0]}`)
 		// If no fallbacks is provided, avoid at all costs sending an email with no text
 		if (!fallback) throw new Error(`Missing ${key} in ${this.locales[0]}`)
 		return fallback || `[${key}]`
