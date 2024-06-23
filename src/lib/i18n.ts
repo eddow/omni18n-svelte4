@@ -1,10 +1,10 @@
 import {
-	reports,
 	type TContext,
 	I18nClient,
 	type Locale,
 	type Translator,
-	type LocaleFlagsEngine
+	type LocaleFlagsEngine,
+	type TextKey
 } from 'omni18n/ts'
 import { writable } from 'svelte/store'
 
@@ -20,7 +20,17 @@ export function setFetch(fn: typeof fetch) {
 	rq = fn
 }
 
-export const i18nClient = new I18nClient([], condense)
+class ClientSideClient extends I18nClient {
+	report(key: TextKey, error: string, spec: object) {
+		rq(`/i18n?report`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ key, error, ...(spec && { spec }) })
+		})
+	}
+}
+
+export const i18nClient = new ClientSideClient([], condense)
 export const T = writable<Translator>()
 export const locale = writable<Locale>()
 let queryLocale: string
@@ -29,24 +39,6 @@ locale.subscribe(async (locale) => {
 	queryLocale = locale
 	await i18nClient.setLocales([locale])
 	await initTranslator()
-})
-Object.assign(reports, {
-	error({ key }: TContext, error: string, spec: object) {
-		rq(`/i18n?error`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ key, error, spec })
-		})
-		return '[*translation error*]'
-	},
-	missing({ key }: TContext, fallback: string) {
-		rq(`/i18n?missing`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ key })
-		})
-		return fallback || `[${key}]`
-	}
 })
 
 async function condense() {

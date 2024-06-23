@@ -18,10 +18,9 @@ export const POST: RequestHandler = async ({ locals: { i18nClient }, cookies, re
 		i18nClient.missing(key, 'client-side')
 		return ok()
 	}
-	if (url.searchParams.get('error') !== null) {
+	if (url.searchParams.get('report') !== null) {
 		const { key, error, spec } = body
-		i18nClient.error(key, error, { ...spec, clientSide: true })
-		return ok()
+		i18nClient.report(key, error, spec)
 	}
 	// Actual `condense` query, occurs on user's language change
 	const { locale } = body

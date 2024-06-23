@@ -7,18 +7,22 @@ export const i18nSource = new FileDB('dictionary.i18n')
 
 export const i18nServer = new I18nServer<KeyInfos, TextInfos>(i18nSource)
 
-export type ClientSideError = object & { clientSide?: true }
-
 class ReportingI18nClient extends I18nClient {
-	error(key: string, error: string, spec: ClientSideError) {
+	report(key: string, error: string, spec?: object) {
+		// PoI: actually report
+		console.error(
+			`${error}: ${key} in ${this.locales[0]}:\n`,
+			spec ? JSON.stringify(spec, null, 2) : ''
+		)
+	}
+	error(key: string, error: string, spec?: object): string {
 		// PoI: actually report
 		console.error(
 			`Error ${error} for ${key} in ${this.locales[0]}:\n`,
 			JSON.stringify(spec, null, 2)
 		)
 		// If error on server-side, avoid at all costs sending an email with no text
-		if (!spec.clientSide) throw new Error(`Error ${error} for ${key} in ${this.locales[0]}`)
-		return '[*error*]'
+		throw new Error(`Error ${error} for ${key} in ${this.locales[0]}`)
 	}
 
 	missing(key: string, fallback: string) {
